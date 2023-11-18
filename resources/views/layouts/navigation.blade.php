@@ -15,7 +15,20 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Acceuil') }}
                     </x-nav-link>
+
+                    @can('acces_admin')
+
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Ajouter un article') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Liste des articles') }}
+                    </x-nav-link>
+
+                    @endcan
                 </div>
+
             </div>
 
             <!-- Settings Dropdown -->
