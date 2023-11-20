@@ -1,65 +1,45 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Ajouter un article</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('storeArticle') }}">
-                        @csrf
-
-                        <div class="form-group">
-                            <label for="nom" class="col-md-4 control-label">Nom</label>
-
-                            <div class="col-md-6">
-                                <input id="nom" type="text" class="form-control" name="nom" required autofocus>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="categorie" class="col-md-4 control-label">Catégorie</label>
-
-                            <div class="col-md-6">
-                                <input id="categorie" type="text" class="form-control" name="categorie" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="image" class="col-md-4 control-label">Image</label>
-
-                            <div class="col-md-6">
-                                <input id="image" type="text" class="form-control" name="image" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="description" class="col-md-4 control-label">Description</label>
-
-                            <div class="col-md-6">
-                                <textarea id="description" class="form-control" name="description" required></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="status" class="col-md-4 control-label">Status</label>
-
-                            <div class="col-md-6">
-                                <select id="status" class="form-control" name="status" required>
-                                    <option value="disponible">Disponible</option>
-                                    <option value="indisponible">Indisponible</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Ajouter l'article
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5v6lCt/cL9mfWJxrEc/aBx2VK" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Creer un article</h1>
+        <form @submit.prevent="submitForm" >
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" class="form-control" v-model="article.nom">
             </div>
-        </div>
+            <div class="form-group">
+                <label for="categorie">Categorie</label>
+                <input type="text" id="categorie" class="form-control" v-model="article.categorie">
+            </div>
+            <div class="form-group">
+                <label for="photo">Photo</label>
+                <input type="text" id="photo" class="form-control" v-model="article.photo">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" class="form-control" v-model="article.description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" class="form-control" v-model="article.status">
+                    <option value="1">Disponible</option>
+                    <option value="0">Indisponible</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" class="form-control" v-model="article.date">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
-</div>
+</body>
+</html>

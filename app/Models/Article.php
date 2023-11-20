@@ -15,6 +15,6 @@ class Article extends Model
         'photo',
         'description',
         'status',
-        'date_a_quoi',
+        'date',
     ];
 }

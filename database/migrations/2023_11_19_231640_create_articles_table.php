@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->text('description');
             $table->string('status');
-            $table->date('date_a_quoi');
+            $table->date('date');
             $table->timestamps();
         });
     }

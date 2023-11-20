@@ -27,7 +27,7 @@ class ArticleController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
             'status' => 'required',
-            'date_a_quoi' => 'required',
+            'date' => 'required',
         ]);
 
         $image = $request->file('photo');
@@ -41,7 +41,7 @@ class ArticleController extends Controller
             'photo' => $name,
             'description' => $request->description,
             'status' => $request->status,
-            'date_a_quoi' => $request->date_a_quoi,
+            'date' => $request->date,
         ]);
         $article->save();
 
@@ -68,7 +68,7 @@ class ArticleController extends Controller
             'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'required',
             'status' => 'required',
-            'date_a_quoi' => 'required',
+            'date' => 'required',
         ]);
 
         $article = Article::findOrFail($id);
@@ -85,7 +85,7 @@ class ArticleController extends Controller
         $article->categorie = $request->categorie;
         $article->description = $request->description;
         $article->status = $request->status;
-        $article->date_a_quoi = $request->date_a_quoi;
+        $article->date = $request->date;
         $article->save();
 
         return redirect()->route('articles.index')->with('success','Article a été mis à jour avec succès');
