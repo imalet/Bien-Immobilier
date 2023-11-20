@@ -15,11 +15,18 @@ use App\Http\Controllers\ArticleController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('articles.create');
 });
 
 
 
-Route::post('/store-article', [ArticleController::class, 'store'])->name('storeArticle');
+Route::post('/articles/create', [ArticleController::class, 'store'])->name('enregistre');
 
 Route::resource('articles', ArticleController::class);
+
+Route::get('/articles.create', function () {
+    return view('show');
+});
+//nouvel article
+Route::get('/new','create')->name('create');
+Route:;post('/new','store');

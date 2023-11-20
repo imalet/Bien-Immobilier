@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class ArticleController extends Controller
 {
@@ -20,8 +22,10 @@ class ArticleController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $this->validate($request, [
+    {   
+        $input = $request->input();
+
+        $validator = Validator::make($input, [
             'nom' => 'required',
             'categorie' => 'required',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -30,24 +34,37 @@ class ArticleController extends Controller
             'date' => 'required',
         ]);
 
-        $image = $request->file('photo');
-        $name = str_slug($request->nom).'.'.$image->getClientOriginalExtension();
-        $destinationPath = public_path('/images');
-        $image->move($destinationPath, $name);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();  
+            $this->validate($request, [
+                'nom' => 'required',
+                'categorie' => 'required',
+                'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'description' => 'required',
+                'status' => 'required',
+                'date' => 'required',
+            ]);
 
-        $article = new Article([
-            'nom' => $request->nom,
-            'categorie' => $request->categorie,
-            'photo' => $name,
-            'description' => $request->description,
-            'status' => $request->status,
-            'date' => $request->date,
-        ]);
-        $article->save();
+            // $image = $request->file('photo');
+            // $name = ($request->nom).'.'.$image->getClientOriginalExtension();
+            // $destinationPath = public_path('/images');
+            // $image->move($destinationPath, $name);
 
-        return redirect()->route('articles.index')->with('success','Article a été créé avec succès');
-    }
+            $article = new Article([
+                'nom' => $request->nom,
+                'categorie' => $request->categorie,
+                'photo' => $request,
+                'description' => $request->description,
+                'status' => $request->status,
+                'date' => $request->date,
+            ]);
+            $article->save();
 
+            return redirect()->route('articles.index')->with('success','Article a été créé avec succès');
+        } else{
+
+        }
+    }        
     public function show($id)
     {
         $article = Article::findOrFail($id);
@@ -75,7 +92,7 @@ class ArticleController extends Controller
 
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
-            $name = str_slug($request->nom).'.'.$image->getClientOriginalExtension();
+            $name = ($request->nom).'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $name);
             $article->photo = $name;
