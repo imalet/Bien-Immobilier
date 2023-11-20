@@ -29,4 +29,4 @@ Route::get('/articles.create', function () {
 });
 //nouvel article
 Route::get('/new','create')->name('create');
-Route:;post('/new','store');
+Route::post('/new','store');
