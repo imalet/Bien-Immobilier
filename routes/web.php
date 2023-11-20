@@ -30,3 +30,7 @@ Route::get('/articles.create', function () {
 //nouvel article
 Route::get('/new','create')->name('create');
 Route::post('/new','store');
+
+//editer(modifier) un article
+Route::get('/articles/{article}/edit', 'ArticleController@edit')->name('articles.edit');
+Route::put('/articles/{article}', 'ArticleController@update')->name('articles.update');

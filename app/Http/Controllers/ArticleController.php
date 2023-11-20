@@ -79,14 +79,23 @@ class ArticleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'nom' => 'required',
-            'categorie' => 'required',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'description' => 'required',
-            'status' => 'required',
-            'date' => 'required',
+        // $this->validate($request, [
+        //     'nom' => 'required',
+        //     'categorie' => 'required',
+        //     'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        //     'description' => 'required',
+        //     'status' => 'required',
+        //     'date' => 'required',
+        // ]);
+
+        $data = $request->validate([
+            'nom' => 'required|string',
+            'categorie' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description' => 'required|string',
+            'statut' => 'required|string',
         ]);
+    
 
         $article = Article::findOrFail($id);
 
@@ -104,8 +113,9 @@ class ArticleController extends Controller
         $article->status = $request->status;
         $article->date = $request->date;
         $article->save();
+        $article->update($data);
 
-        return redirect()->route('articles.index')->with('success','Article a été mis à jour avec succès');
+    return redirect()->route('articles.index')->with('success', 'Article mis à jour avec succès');
     }
 
     public function destroy($id)

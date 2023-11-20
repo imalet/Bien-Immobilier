@@ -20,6 +20,7 @@
                         <th>Description</th>
                         <th>Status</th>
                         <th>Date</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,6 +31,7 @@
                         <td>{{ article.description }}</td>
                         <td>{{ article.status }}</td>
                         <td>{{ article.date }}</td>
+                        <td><button type="submit">Modifier</button></td>
                     </tr>
                 </tbody>
             </table>
