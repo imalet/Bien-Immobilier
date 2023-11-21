@@ -118,11 +118,17 @@ class ArticleController extends Controller
     return redirect()->route('articles.index')->with('success', 'Article mis à jour avec succès');
     }
 
+   //Suppression
+        
     public function destroy($id)
     {
+        // Vérification si l'article existe
         $article = Article::findOrFail($id);
+
+        // Suppression de l'article
         $article->delete();
 
-        return redirect()->route('articles.index')->with('success','Article a été supprimé avec succès');
+        // Redirection vers la page d'index des articles
+        return redirect()->route('articles.index')->with('success', 'Article supprimé avec succès');
     }
 }

@@ -20,7 +20,9 @@
                         <th>Description</th>
                         <th>Status</th>
                         <th>Date</th>
-                        <th>Action</th>
+                        <th>Action1</th>
+                        <th>Action2</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -32,6 +34,11 @@
                         <td>{{ article.status }}</td>
                         <td>{{ article.date }}</td>
                         <td><button type="submit">Modifier</button></td>
+                        <td><form action="{{ route('articles.destroy', $article->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form></td>
                     </tr>
                 </tbody>
             </table>

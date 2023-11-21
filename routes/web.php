@@ -34,3 +34,5 @@ Route::post('/new','store');
 //editer(modifier) un article
 Route::get('/articles/{article}/edit', 'ArticleController@edit')->name('articles.edit');
 Route::put('/articles/{article}', 'ArticleController@update')->name('articles.update');
+//delete(supprimer) un article
+Route::delete('/articles/{article}', 'ArticleController@destroy')->name('articles.destroy');
