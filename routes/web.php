@@ -14,9 +14,6 @@ use App\Http\Controllers\ArticleController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
 ROUTE::get('/ajoutArticle', function(){
