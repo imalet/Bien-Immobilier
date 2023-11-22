@@ -46,3 +46,5 @@ Route::get('/articles/{id}',[ArticleController::class,'show'])->name('detail');
 //update detail
 Route::get('/articles/{id}/edit',[ArticleController::class,'edit'])->name('edit');
 Route::post('/articles/{id}/update',[ArticleController::class,'update'])->name('update');
+//delete article
+Route::get('/articles/{id}/delete',[ArticleController::class,'destroy'])->name('delete');

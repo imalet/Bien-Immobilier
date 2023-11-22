@@ -17,6 +17,7 @@
         <p class="card-text">Statut: {{$article->status}}</p>
         <p class="card-text">Description: {{$article->description}}</p>
         <a href="{{route('edit',['id'=>$article->id])}}" class="btn btn-primary">Mise a jour</a>
+        <a href="{{route('delete',['id'=>$article->id])}}" class="btn btn-danger">Supprimer</a>
         </div>
 </body>
 </html>
