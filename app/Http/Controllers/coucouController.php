@@ -13,7 +13,6 @@ class coucouController extends Controller
     public function index()
     {
         $auth = Auth::all();
-        re
     }
 
     /**
