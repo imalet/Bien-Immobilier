@@ -44,7 +44,7 @@
             </table>
         </div>
     </template>
-    
+{{--     
     <script>
     export default {
         data() {
@@ -66,6 +66,6 @@
             },
         },
     };
-    </script>
+    </script> --}}
 </body>
 </html>

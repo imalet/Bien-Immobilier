@@ -39,7 +39,6 @@
                 <input type="date" class="form-control" id="date" name="date">
             </div>
 
-            {{-- <input type="submit" value="Envoyer">         --}}
             <button>Creer l'article</button>
         </form>
     </div>
