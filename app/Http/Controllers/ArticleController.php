@@ -23,47 +23,77 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {   
-        $input = $request->input();
+        // dd($request);
+        // $input = $request->input();
+        $validator = $request->validate(
+            [
+                    'nom' => 'required',
+                    'categorie' => 'required',
+                    // 'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'description' => 'required',
+                    'status' => 'required',
+                    'date' => 'required',
+            ]
+        );
+        $article = new Article($validator);
+        $article->nom = $request->nom;   
+        $article->categorie = $request->categorie;   
+        // $article->photo = $request->photo;              
+        $article->description = $request->description;   
+        $article->status = $request->status;   
+        $article->date = $request->date;  
+        // Récupérer le fichier image à partir de la requête
+        $image = $request->photo;
+        // dd($image);
+        // Générer un nom unique pour le fichier image
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
 
-        $validator = Validator::make($input, [
-            'nom' => 'required',
-            'categorie' => 'required',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'description' => 'required',
-            'status' => 'required',
-            'date' => 'required',
-        ]);
+        // Définir le chemin où le fichier image sera stocké (assurez-vous d'avoir le répertoire 'images' créé dans le dossier public de votre application)
+        $imagePath = public_path('images');
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();  
-            $this->validate($request, [
-                'nom' => 'required',
-                'categorie' => 'required',
-                'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'description' => 'required',
-                'status' => 'required',
-                'date' => 'required',
-            ]);
+        // Déplacer le fichier image vers le répertoire défini
+        $image->move($imagePath, $imageName);
 
-            // $image = $request->file('photo');
-            // $name = ($request->nom).'.'.$image->getClientOriginalExtension();
-            // $destinationPath = public_path('/images');
-            // $image->move($destinationPath, $name);
+        // Stocker le chemin du fichier image dans le modèle
+        $article->photo = 'images/' . $imageName;
+ 
+        // dd($article);
+        $article->save();
+        // return back()->with('success','Article a été créé avec succès');
+        return redirect()->route('articles.index')->with('success','Article a été créé avec succès');
 
-            $article = new Article([
-                'nom' => $request->nom,
-                'categorie' => $request->categorie,
-                'photo' => $request,
-                'description' => $request->description,
-                'status' => $request->status,
-                'date' => $request->date,
-            ]);
-            $article->save();
+        // $validator = Validator::make( [
+        //     'nom' => 'required',
+        //     'categorie' => 'required',
+        //     'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        //     'description' => 'required',
+        //     'status' => 'required',
+        //     'date' => 'required',
+        // ]);
 
-            return redirect()->route('articles.index')->with('success','Article a été créé avec succès');
-        } else{
+    //     if ($validator->fails()) {
+    //         return redirect()->back()->withErrors($validator)->withInput();  
+    //         $this->validate($request, [
+    //             'nom' => 'required',
+    //             'categorie' => 'required',
+    //             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    //             'description' => 'required',
+    //             'status' => 'required',
+    //             'date' => 'required',
+    //         ]);
 
-        }
+    //         // $image = $request->file('photo');
+    //         // $name = ($request->nom).'.'.$image->getClientOriginalExtension();
+    //         // $destinationPath = public_path('/images');
+    //         // $image->move($destinationPath, $name);
+
+    //     } else{
+            // $article = new Article($validator);
+               
+            // $article->save();
+
+            // return redirect()->route('articles.index')->with('success','Article a été créé avec succès');
+    //     }
     }        
     public function show($id)
     {
