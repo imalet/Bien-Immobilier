@@ -45,6 +45,7 @@ class ArticleController extends Controller
         // Récupérer le fichier image à partir de la requête
         $image = $request->photo;
         // dd($image);
+
         // Générer un nom unique pour le fichier image
         $imageName = time() . '.' . $image->getClientOriginalExtension();
 
@@ -109,32 +110,27 @@ class ArticleController extends Controller
 
     public function update(Request $request, $id)
     {
-        // $this->validate($request, [
-        //     'nom' => 'required',
-        //     'categorie' => 'required',
-        //     'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        //     'description' => 'required',
-        //     'status' => 'required',
-        //     'date' => 'required',
-        // ]);
 
-        $data = $request->validate([
-            'nom' => 'required|string',
-            'categorie' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'description' => 'required|string',
-            'statut' => 'required|string',
-        ]);
+        // dd($id);
+
+        // $data = $request->validate([
+        //     'nom' => 'required|string',
+        //     'categorie' => 'required|string',
+        //     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        //     'description' => 'required|string',
+        //     'statut' => 'required|string',
+        // ]);
     
 
         $article = Article::findOrFail($id);
-
+        // dd($article);
+    
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $name = ($request->nom).'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/images');
+            $destinationPath = public_path('images');
             $image->move($destinationPath, $name);
-            $article->photo = $name;
+            $article->photo = 'images/' . $name;
         }
 
         $article->nom = $request->nom;
@@ -143,7 +139,7 @@ class ArticleController extends Controller
         $article->status = $request->status;
         $article->date = $request->date;
         $article->save();
-        $article->update($data);
+        // $article->update($data);
 
     return redirect()->route('articles.index')->with('success', 'Article mis à jour avec succès');
     }

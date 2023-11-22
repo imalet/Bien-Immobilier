@@ -35,9 +35,14 @@ Route::get('/articles.create', function () {
 // Route::post('/new','store');
 
 //editer(modifier) un article
-Route::get('/articles/{article}/edit', 'ArticleController@edit')->name('articles.edit');
-Route::put('/articles/{article}', 'ArticleController@update')->name('articles.update');
+// Route::get('/articles/{article}/edit', 'ArticleController@edit')->name('articles.edit');
+// Route::put('/articles/{article}', 'ArticleController@update')->name('articles.update');
 //delete(supprimer) un article
-Route::delete('/articles/{article}', 'ArticleController@destroy')->name('articles.destroy');
+// Route::delete('/articles/{article}', 'ArticleController@destroy')->name('articles.destroy');
 //Affichage des articles
 Route::get('/articles/index', [ArticleController::class,'index'])->name('articles.index');
+//details de l'article
+Route::get('/articles/{id}',[ArticleController::class,'show'])->name('detail');
+//update detail
+Route::get('/articles/{id}/edit',[ArticleController::class,'edit'])->name('edit');
+Route::post('/articles/{id}/update',[ArticleController::class,'update'])->name('update');
