@@ -46,9 +46,12 @@
             </path>
           </g>
         </svg>
-        <a href="#" class="font-semibold inline-block">Cooking BLog</a>
+        <a href="#" class="font-semibold inline-block">Articles Immobilier</a>
       </div>
+      @can('acces_admin')
+
       <a href="ajoutArticle" class="text-green-600 flex items-center py-2 px-2 border-b-2 border-green-600 hover:bg-green-600 hover:text-white transition duration-500 hover:rounded">Ajouter un Article</a>
+      @endcan
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-10">
@@ -57,7 +60,7 @@
       <div class="rounded overflow-hidden shadow-lg flex flex-col">
         <a href="#"></a>
         <div class="relative"><a href="{{route('detail',['id'=>$article->id])}}">
-            <img class="w-full"
+            <img class="h-60 w-full"
               src="{{asset($article->photo)}}"
               alt="Sunset in the mountains">
             <div
@@ -91,7 +94,7 @@
                 </g>
               </g>
             </svg>
-            <span class="ml-1">6 mins ago</span>
+            <span class="ml-1">{{ $article->created_at }}</span>
           </span>
 
           <span href="#" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">

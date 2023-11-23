@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +61,10 @@ Route::get('/artilcle/edit-comment/{article}/{comment}', [CommentController::cla
 Route::post('/artilcle/update-comment/{id}', [CommentController::class, 'update'])->name('comment.update');
 // Delete
 Route::get('/comment/comment/{id}', [CommentController::class, 'destroy'])->name('comment.delete');
+
+// Deconnexion
+Route::get('/deconnexion',function(){
+
+    Auth::logout();
+    return back();
+})->name('deconnexion');
