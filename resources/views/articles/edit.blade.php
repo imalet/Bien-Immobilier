@@ -10,6 +10,7 @@
 </head>
 <body>
 
+    @include('components.navbar')
 
     <form action="{{route('update',['id'=>$article->id])}}" method="post" enctype="multipart/form-data">
         @csrf

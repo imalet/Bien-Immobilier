@@ -12,22 +12,8 @@
 </head>
 
 <body>
-  {{-- <h1>Liste des articles.</h1> --}}
-  {{-- <div class="row d-flex justify-content-between p-5">
-    @foreach($articles as $article )
-    <div class="card " style="width: 18rem;">
-      <img class="card-img-top mt-2" src="{{asset($article->photo)}}" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">{{$article->nom}}</h5>
-        <p class="card-text">Categorie: {{$article->categorie}}</p>
-        <p class="card-text">Statut: {{$article->status}}</p>
-        <a href="{{route('detail',['id'=>$article->id])}}" class="btn btn-primary">Voir plus</a>
-      </div>
-    </div>
-    @endforeach
-  </div> --}}
+  @include('components.navbar')
 
-  {{-- ooo --}}
 
   <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
 

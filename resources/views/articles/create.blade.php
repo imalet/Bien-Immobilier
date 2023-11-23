@@ -11,6 +11,9 @@
 
 <body>
 
+    @include('components.navbar')
+
+
     <form action="{{route('enregistre')}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl">

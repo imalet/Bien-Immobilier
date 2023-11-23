@@ -11,6 +11,9 @@
 
 <body>
 
+    @include('components.navbar')
+
+
     <div class="sm:mx-auto sm:w-full my-14">
         <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
             Detail de l'Article : {{ $article->nom }}
