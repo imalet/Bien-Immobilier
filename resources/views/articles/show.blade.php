@@ -143,17 +143,13 @@
                     <h3 class="text-lg font-bold mb-2">Categories</h3>
                     <div class="flex  gap-2 flex-wrap ">
                         <span
-                            class="bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600">#photography</span>
-                        <span
-                            class="bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600">#travel</span>
-                        <span
-                            class="bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600">#winter</span>
-                        <span
-                            class="bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600">#chill</span>
+                            class="bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600">{{ $article->categorie }}</span>
+                        
                     </div>
                 </div>
                 <div class="mt-5">
 
+                    @can('acces_admin')
                     <a href="{{route('edit',['id'=>$article->id])}}"
                         class="bg-green-500  text-white font-bold py-2 px-4 rounded mr-3">
                         Modifier l'article
@@ -163,6 +159,7 @@
                         class="bg-red-500 text-white font-bold py-2 px-4 rounded">
                         Supprimer l'article
                     </a>
+                    @endcan
 
                 </div>
             </div>
