@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+ROUTE::get('/ajoutArticle', function(){
+    return view('articles.create');
 });
 
 
@@ -24,7 +27,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [AdminController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/coucou', [CoucouController::class, 'voir']);
+// Route::get('/coucou', [CoucouController::class, 'voir']);
 
 
 // Route::get('/dashboard', function () {
@@ -40,3 +43,29 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+Route::post('/articles/create', [ArticleController::class, 'store'])->name('enregistre');
+
+Route::resource('articles/', ArticleController::class);
+
+Route::get('/articles.create', function () {
+    return view('show');
+});
+//nouvel article
+// Route::get('/new','create')->name('create');
+// Route::post('/new','store');
+
+//editer(modifier) un article
+// Route::get('/articles/{article}/edit', 'ArticleController@edit')->name('articles.edit');
+// Route::put('/articles/{article}', 'ArticleController@update')->name('articles.update');
+//delete(supprimer) un article
+// Route::delete('/articles/{article}', 'ArticleController@destroy')->name('articles.destroy');
+//Affichage des articles
+Route::get('/', [ArticleController::class,'index'])->name('articles.index');
+// Route::get('/articles/index', [ArticleController::class,'index'])->name('articles.index');
+//details de l'article
+Route::get('/articles/{id}',[ArticleController::class,'show'])->name('detail');
+//update detail
+Route::get('/articles/{id}/edit',[ArticleController::class,'edit'])->name('edit');
+Route::post('/articles/{id}/update',[ArticleController::class,'update'])->name('update');
+//delete article
+Route::get('/articles/{id}/delete',[ArticleController::class,'destroy'])->name('delete');
