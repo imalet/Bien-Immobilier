@@ -24,6 +24,12 @@ ROUTE::get('/ajoutArticle', function () {
     return view('articles.create');
 });
 
+ROUTE::get('/bien', function () {
+    return view('articles.ajoutBien');
+});
+
+
+
 Route::get('/dashboard', [AdminController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -45,7 +51,9 @@ Route::get('/articles.create', function () {
 //Affichage des articles
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 //details de l'article
-Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('detail');
+Route::get('/articles/{id}', [ArticleController::class, 'showarticle'])->name('detail');
+
+// Route::get('/show/{id}', [ArticleController::class, 'showarticle'])->name('showarticle');
 //update detail
 Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('edit');
 
@@ -54,7 +62,7 @@ Route::post('/articles/{id}/update', [ArticleController::class, 'update'])->name
 Route::get('/articles/{id}/delete', [ArticleController::class, 'destroy'])->name('delete');
 
 // Add Comment
-Route::post('/addComment',[CommentController::class, 'store'])->middleware('auth')->name('comment.add');
+Route::post('/addComment', [CommentController::class, 'store'])->middleware('auth')->name('comment.add');
 // Edit Comment
 Route::get('/artilcle/edit-comment/{article}/{comment}', [CommentController::class, 'edit'])->name('comment.edit');
 // Update Comment
@@ -63,7 +71,7 @@ Route::post('/artilcle/update-comment/{id}', [CommentController::class, 'update'
 Route::get('/comment/comment/{id}', [CommentController::class, 'destroy'])->name('comment.delete');
 
 // Deconnexion
-Route::get('/deconnexion',function(){
+Route::get('/deconnexion', function () {
 
     Auth::logout();
     return back();
