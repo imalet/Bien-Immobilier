@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Email;
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -23,6 +26,7 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
+
         // dd($request);
         // $input = $request->input();
         $validator = $request->validate(
@@ -100,6 +104,12 @@ class ArticleController extends Controller
         $article->saveChambres($imagesChambres, $dimensionsChambres, $libellesChambres);
 
         $article->save();
+
+        $emailUsers = User::all();
+
+        foreach ($emailUsers as $emailUser) {
+            Mail::to($emailUser->email)->send(new Email());
+        }
 
         return redirect()->route('articles.index')->with('success', 'Article a été créé avec succès');
     }
