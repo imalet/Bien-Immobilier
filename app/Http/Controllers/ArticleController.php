@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -50,6 +53,7 @@ class ArticleController extends Controller
         $article->nombreEspaceVert = $request->espaceVert;
         $article->status = $request->status;
         $article->date = $request->date;
+        $article->user_id = Auth::user()->id;
         // Récupérer le fichier image à partir de la requête
         $image = $request->photo;
         // dd($image);
@@ -124,7 +128,12 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $article = Article::findOrFail($id);
-        return view('articles.edit', compact('article'));
+
+        if ($article->user_id === Auth::user()->id) {
+            return view('articles.edit', compact('article'));
+        }
+        return back();
+        
     }
 
     public function update(Request $request, $id)
@@ -167,6 +176,11 @@ class ArticleController extends Controller
 
     public function destroy($id)
     {
+        $article = Article::findOrFail($id);
+
+        if ($article->id !== Auth::user()->id) {
+            return back();
+        }
         // Vérification si l'article existe
         $article = Article::findOrFail($id);
 

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->json('photoChambre')->nullable();
             $table->json('DimensionChambre')->nullable();
             $table->json('LibelleChambre')->nullable();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
         });
     }
 
