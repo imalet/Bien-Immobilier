@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,37 +18,65 @@ use App\Http\Controllers\ArticleController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+ROUTE::get('/ajoutArticle', function () {
+    return view('articles.create');
 });
 
+ROUTE::get('/bien', function () {
+    return view('articles.ajoutBien');
+});
+
+
+
+Route::get('/dashboard', [AdminController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__ . '/auth.php';
 
 ROUTE::get('/ajoutArticle', function(){
     return view('articles.create');
 });
 
 Route::post('/articles/create', [ArticleController::class, 'store'])->name('enregistre');
-
 Route::resource('articles/', ArticleController::class);
 
 Route::get('/articles.create', function () {
     return view('show');
 });
-//nouvel article
-// Route::get('/new','create')->name('create');
-// Route::post('/new','store');
 
-//editer(modifier) un article
-// Route::get('/articles/{article}/edit', 'ArticleController@edit')->name('articles.edit');
-// Route::put('/articles/{article}', 'ArticleController@update')->name('articles.update');
-//delete(supprimer) un article
-// Route::delete('/articles/{article}', 'ArticleController@destroy')->name('articles.destroy');
+
 //Affichage des articles
-Route::get('/articles/index', [ArticleController::class,'index'])->name('articles.index');
+Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 //details de l'article
-Route::get('/articles/{id}',[ArticleController::class,'show'])->name('detail');
+Route::get('/articles/{id}', [ArticleController::class, 'showarticle'])->name('detail');
+
+// Route::get('/show/{id}', [ArticleController::class, 'showarticle'])->name('showarticle');
 //update detail
-Route::get('/articles/{id}/edit',[ArticleController::class,'edit'])->name('edit');
-Route::post('/articles/{id}/update',[ArticleController::class,'update'])->name('update');
+Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('edit');
+
+Route::post('/articles/{id}/update', [ArticleController::class, 'update'])->name('update');
 //delete article
-Route::get('/articles/{id}/delete',[ArticleController::class,'destroy'])->name('delete');
+Route::get('/articles/{id}/delete', [ArticleController::class, 'destroy'])->name('delete');
+
+// Add Comment
+Route::post('/addComment', [CommentController::class, 'store'])->middleware('auth')->name('comment.add');
+// Edit Comment
+Route::get('/artilcle/edit-comment/{article}/{comment}', [CommentController::class, 'edit'])->name('comment.edit');
+// Update Comment
+Route::post('/artilcle/update-comment/{id}', [CommentController::class, 'update'])->name('comment.update');
+// Delete
+Route::get('/comment/comment/{id}', [CommentController::class, 'destroy'])->name('comment.delete');
+
+// Deconnexion
+Route::get('/deconnexion', function () {
+
+    Auth::logout();
+    return back();
+})->name('deconnexion');
