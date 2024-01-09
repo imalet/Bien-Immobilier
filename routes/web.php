@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-ROUTE::get('/ajoutArticle', function(){
+ROUTE::get('/ajoutArticle', function () {
     return view('articles.create');
 });
 

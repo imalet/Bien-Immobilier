@@ -22,6 +22,7 @@ class Article extends Model
         'Dimension',
         'photoChambre',
         'DimensionChambre',
+        'LibelleChambre',
     ];
 
     public function comments()

@@ -30,8 +30,6 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request);
-        // $input = $request->input();
         $validator = $request->validate(
             [
                 'nom' => 'required',
@@ -58,28 +56,17 @@ class ArticleController extends Controller
         $article->status = $request->status;
         $article->date = $request->date;
         $article->user_id = Auth::user()->id;
+
         // Récupérer le fichier image à partir de la requête
-        $image = $request->photo;
-        // dd($image);
 
-        // Générer un nom unique pour le fichier image
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $imagePath = public_path('images');
+            $image->move($imagePath, $imageName);
+            $article->photo = 'images/' . $imageName;
+        }
 
-        // Définir le chemin où le fichier image sera stocké (assurez-vous d'avoir le répertoire 'images' créé dans le dossier public de votre application)
-        $imagePath = public_path('images');
-
-        // Déplacer le fichier image vers le répertoire défini
-        $image->move($imagePath, $imageName);
-
-        // Stocker le chemin du fichier image dans le modèle
-        $article->photo = 'images/' . $imageName;
-
-        // dd($article);
-
-        // return back()->with('success','Article a été créé avec succès');
-
-
-        // dd($request);
         $imagesChambres = [];
         $dimensionsChambres = [];
         $libellesChambres = [];
@@ -102,20 +89,18 @@ class ArticleController extends Controller
             $libellesChambres[] = $libelleChambre;
         }
 
-        // $article->photoChambre = json_encode($imagesChambres);
-        // $article->DimensionChambre = json_encode($dimensionsChambres);
-
         $article->saveChambres($imagesChambres, $dimensionsChambres, $libellesChambres);
 
         $article->save();
 
-        $emailUsers = User::all();
+        // $emailUsers = User::all();
 
-        foreach ($emailUsers as $emailUser) {
-            Mail::to($emailUser->email)->send(new Email());
-        }
+        // foreach ($emailUsers as $emailUser) {
+        //     Mail::to($emailUser->email)->send(new Email());
+        // }
 
-        return redirect()->route('articles.index')->with('success', 'Article a été créé avec succès');
+        // return redirect()->route('articles.index');
+        return redirect()->route('articles.index');
     }
     public function show($id)
     {
@@ -143,7 +128,6 @@ class ArticleController extends Controller
             return view('articles.edit', compact('article'));
         }
         return back();
-        
     }
 
     public function update(Request $request, $id)
@@ -188,7 +172,7 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        if ($article->id !== Auth::user()->id) {
+        if ($article->user_id !== Auth::user()->id) {
             return back();
         }
         // Vérification si l'article existe
