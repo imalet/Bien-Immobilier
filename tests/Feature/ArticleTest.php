@@ -42,7 +42,7 @@ class ArticleTest extends TestCase
         $response->assertRedirect(route('articles.index'));
 
         $this->assertDatabaseHas('articles', [
-            'nom' => 'test123',
+            'nom' => 'essai',
         ]);
 
         // Assurez-vous que le fichier image a été stocké dans le bon répertoire
