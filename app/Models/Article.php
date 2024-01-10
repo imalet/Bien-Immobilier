@@ -16,10 +16,50 @@ class Article extends Model
         'description',
         'status',
         'date',
+        'nombreChambre',
+        'nombreBalcon',
+        'nombreEspaceVert',
+        'Dimension',
+        'photoChambre',
+        'DimensionChambre',
+        'LibelleChambre',
     ];
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function saveChambres($images, $dimensions, $libelle)
+    {
+        $this->photoChambre = json_encode($images);
+        $this->DimensionChambre = json_encode($dimensions);
+        $this->LibelleChambre = json_encode($libelle);
+
+        $this->save();
+    }
+
+    public function getChambres()
+    {
+        $images = json_decode($this->photoChambre, true);
+        $dimensions = json_decode($this->DimensionChambre, true);
+        $libelle = json_decode($this->LibelleChambre, true);
+
+        $chambres = [];
+
+        foreach ($images as $key => $image) {
+            $chambres[] = [
+                'image' => $image,
+                'dimension' => $dimensions[$key],
+                'libelle' => $libelle[$key]
+            ];
+        }
+
+        return $chambres;
+    }
 }
